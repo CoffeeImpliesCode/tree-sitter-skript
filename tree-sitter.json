@@ -1,0 +1,43 @@
+{
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/config.schema.json",
+  "grammars": [
+    {
+      "name": "skript",
+      "camelcase": "Skript",
+      "title": "Skript",
+      "scope": "source.skript",
+      "file-types": [
+        "cpt",
+        "pt"
+      ],
+      "highlights": "queries/highlights.scm",
+      "injection-regex": "skript"
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0",
+    "license": "MIT",
+    "description": "Skript Tree-Sitter Grammar",
+    "authors": [
+      {
+        "name": "CoffeeImpliesCode",
+        "email": "coffeeimpliescode@proton.me",
+        "url": "https://coffeeimpliescode.com"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/CoffeeImpliesCode/tree-sitter-skript",
+      "funding": ""
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": true,
+    "java": false,
+    "node": true,
+    "python": true,
+    "rust": true,
+    "swift": true,
+    "zig": true
+  }
+}
