@@ -97,7 +97,7 @@ export default grammar({
     string_lit: _ => token(seq('"', repeat(choice(/[^"\\]/, seq('\\', /./))), '"')),
 
     // :NAME — skript keywords are unqualified.
-    kwd_lit: _ => token(seq(':', /[^\s()"';,@]+/)),
+    kwd_lit: _ => token(seq(':', /[^ \t\r\n()\[\]{};\"',:@]+/)),
 
     // #t / #f (+ the Scheme-legal #T / #F). prec(1) beats the identifier
     // rule on the bare two-char forms.

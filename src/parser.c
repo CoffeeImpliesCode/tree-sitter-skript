@@ -363,6 +363,11 @@ static const TSCharacterRange sym_identifier_character_set_2[] = {
   {'^', 'z'}, {'|', '|'}, {'~', 0x10ffff},
 };
 
+static const TSCharacterRange sym_kwd_lit_character_set_1[] = {
+  {0, 0x08}, {0x0b, '\f'}, {0x0e, 0x1f}, {'!', '!'}, {'#', '&'}, {'*', '+'}, {'-', '9'}, {'<', '?'},
+  {'A', 'Z'}, {'\\', '\\'}, {'^', 'z'}, {'|', '|'}, {'~', 0x10ffff},
+};
+
 static bool ts_lex(TSLexer *lexer, TSStateId state) {
   START_LEXER();
   eof = lexer->eof(lexer);
@@ -451,15 +456,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       if (('0' <= lookahead && lookahead <= '9')) ADVANCE(5);
       END_STATE();
     case 13:
-      if (((!eof && set_contains(sym_identifier_character_set_2, 11, lookahead)) ||
-          lookahead == '[' ||
-          lookahead == ']' ||
-          lookahead == '{' ||
-          lookahead == '}') &&
-          lookahead != 0x0b &&
-          lookahead != '\f' &&
-          lookahead != ',' &&
-          lookahead != '@') ADVANCE(60);
+      if ((!eof && set_contains(sym_kwd_lit_character_set_1, 13, lookahead))) ADVANCE(60);
       END_STATE();
     case 14:
       if (lookahead != 0 &&
@@ -469,7 +466,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       if (eof) ADVANCE(17);
       ADVANCE_MAP(
         '"', 1,
-        '#', 40,
+        '#', 41,
         '\'', 23,
         '(', 21,
         ')', 22,
@@ -558,7 +555,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       ADVANCE_MAP(
         '#', 24,
         ',', 49,
-        ':', 41,
+        ':', 40,
         'i', 35,
         'n', 31,
         '+', 26,
@@ -580,9 +577,9 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
     case 27:
       ACCEPT_TOKEN(sym_identifier);
       ADVANCE_MAP(
-        '#', 40,
+        '#', 41,
         ',', 49,
-        ':', 41,
+        ':', 40,
         'i', 35,
         'n', 31,
         '+', 26,
@@ -670,6 +667,13 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 40:
       ACCEPT_TOKEN(sym_identifier);
+      if (lookahead == ',' ||
+          lookahead == ':' ||
+          lookahead == '@') ADVANCE(49);
+      if ((!eof && set_contains(sym_kwd_lit_character_set_1, 13, lookahead))) ADVANCE(40);
+      END_STATE();
+    case 41:
+      ACCEPT_TOKEN(sym_identifier);
       ADVANCE_MAP(
         'F', 61,
         'T', 61,
@@ -681,23 +685,6 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
         'x', 48,
       );
       if ((!eof && set_contains(sym_identifier_character_set_2, 11, lookahead))) ADVANCE(49);
-      END_STATE();
-    case 41:
-      ACCEPT_TOKEN(sym_identifier);
-      if (lookahead == '[' ||
-          lookahead == ']' ||
-          lookahead == '{' ||
-          lookahead == '}') ADVANCE(60);
-      if (lookahead == 0x0b ||
-          lookahead == '\f' ||
-          lookahead == ',' ||
-          lookahead == '@') ADVANCE(49);
-      if (lookahead != 0 &&
-          (lookahead < '\t' || '\r' < lookahead) &&
-          lookahead != ' ' &&
-          lookahead != '"' &&
-          (lookahead < '\'' || ')' < lookahead) &&
-          lookahead != ';') ADVANCE(41);
       END_STATE();
     case 42:
       ACCEPT_TOKEN(sym_identifier);
@@ -814,15 +801,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 60:
       ACCEPT_TOKEN(sym_kwd_lit);
-      if (((!eof && set_contains(sym_identifier_character_set_2, 11, lookahead)) ||
-          lookahead == '[' ||
-          lookahead == ']' ||
-          lookahead == '{' ||
-          lookahead == '}') &&
-          lookahead != 0x0b &&
-          lookahead != '\f' &&
-          lookahead != ',' &&
-          lookahead != '@') ADVANCE(60);
+      if ((!eof && set_contains(sym_kwd_lit_character_set_1, 13, lookahead))) ADVANCE(60);
       END_STATE();
     case 61:
       ACCEPT_TOKEN(sym_bool_lit);
