@@ -1,0 +1,73 @@
+==================
+String literal
+==================
+
+"hello"
+
+---
+
+(source_file
+  (string_lit))
+==================
+String with escapes
+==================
+
+"tab\tthere" "quote\"inside" "back\\slash" "hex\x41" "unicode\u{1F600}"
+
+---
+
+(source_file
+  (string_lit)
+  (string_lit)
+  (string_lit)
+  (string_lit)
+  (string_lit))
+==================
+String in defn body
+==================
+
+(defn greet (n) (if (= n 0) "zero" "many"))
+
+---
+
+(source_file
+  (defn
+    name: (identifier)
+    params: (list
+      (identifier))
+    (call
+      (identifier)
+      (call
+        (identifier)
+        (identifier)
+        (num_lit))
+      (string_lit)
+      (string_lit))))
+==================
+String from particles
+==================
+
+(InitWindow 800 600 "Particles")
+
+---
+
+(source_file
+  (call
+    (identifier)
+    (num_lit)
+    (num_lit)
+    (string_lit)))
+==================
+String in raylib
+==================
+
+(def raylib (dynamic-library:open "libraylib.so"))
+
+---
+
+(source_file
+  (def
+    name: (identifier)
+    value: (call
+      (identifier)
+      (string_lit))))

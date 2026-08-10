@@ -1,0 +1,172 @@
+==================
+Def binding
+==================
+
+(def g 1)
+
+---
+
+(source_file
+  (def
+    name: (identifier)
+    value: (num_lit)))
+==================
+Def with call value
+==================
+
+(def raylib (dynamic-library:open "libraylib.so"))
+
+---
+
+(source_file
+  (def
+    name: (identifier)
+    value: (call
+      (identifier)
+      (string_lit))))
+==================
+Defn
+==================
+
+(defn add (a b) (+ a b))
+
+---
+
+(source_file
+  (defn
+    name: (identifier)
+    params: (list
+      (identifier)
+      (identifier))
+    (call
+      (identifier)
+      (identifier)
+      (identifier))))
+==================
+Defn empty arglist
+==================
+
+(defn starfield () nil)
+
+---
+
+(source_file
+  (defn
+    name: (identifier)
+    params: (list)
+    (nil_lit)))
+==================
+Defn nested fn
+==================
+
+(defn f () (fn () g))
+
+---
+
+(source_file
+  (defn
+    name: (identifier)
+    params: (list)
+    (fn
+      params: (list)
+      (identifier))))
+==================
+Fn call
+==================
+
+((fn (x) x) 42)
+
+---
+
+(source_file
+  (call
+    (fn
+      params: (list
+        (identifier))
+      (identifier))
+    (num_lit)))
+==================
+Defn no body
+==================
+
+(defn f (x))
+
+---
+
+(source_file
+  (defn
+    name: (identifier)
+    params: (list
+      (identifier))))
+==================
+Legacy defn
+==================
+
+(defn (rgba r g b a) (@rgba r g b a))
+
+---
+
+(source_file
+  (defn
+    params: (list
+      (identifier)
+      (identifier)
+      (identifier)
+      (identifier)
+      (identifier))
+    (call
+      (identifier)
+      (identifier)
+      (identifier)
+      (identifier)
+      (identifier))))
+==================
+Recursive defn
+==================
+
+(defn fact (n) (if (< n 2) 1 (* n (fact (- n 1))))) (fact 5)
+
+---
+
+(source_file
+  (defn
+    name: (identifier)
+    params: (list
+      (identifier))
+    (call
+      (identifier)
+      (call
+        (identifier)
+        (identifier)
+        (num_lit))
+      (num_lit)
+      (call
+        (identifier)
+        (identifier)
+        (call
+          (identifier)
+          (call
+            (identifier)
+            (identifier)
+            (num_lit))))))
+  (call
+    (identifier)
+    (num_lit)))
+==================
+Defn from particles
+==================
+
+(defn part-x (p) (map-get p 'x))
+
+---
+
+(source_file
+  (defn
+    name: (identifier)
+    params: (list
+      (identifier))
+    (call
+      (identifier)
+      (identifier)
+      (quote_lit
+        (identifier)))))

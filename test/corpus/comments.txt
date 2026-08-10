@@ -1,0 +1,54 @@
+==================
+Line comment
+==================
+
+; a comment
+
+---
+
+(source_file
+  (line_comment))
+==================
+Comments around forms
+==================
+
+; header
+(+ 1 2) ; trailing
+; last
+
+---
+
+(source_file
+  (line_comment)
+  (call
+    (identifier)
+    (num_lit)
+    (num_lit))
+  (line_comment)
+  (line_comment))
+==================
+Shebang
+==================
+
+#!/usr/bin/env -S skript
+
+---
+
+(source_file
+  (shebang))
+==================
+Comment and form
+==================
+
+; comment
+(defn f (x) x)
+
+---
+
+(source_file
+  (line_comment)
+  (defn
+    name: (identifier)
+    params: (list
+      (identifier))
+    (identifier)))

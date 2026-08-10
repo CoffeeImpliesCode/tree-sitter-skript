@@ -1,0 +1,107 @@
+==================
+Integers with signs
+==================
+
+42 -5 +7 0 9000000
+
+---
+
+(source_file
+  (num_lit)
+  (num_lit)
+  (num_lit)
+  (num_lit)
+  (num_lit))
+==================
+Floats
+==================
+
+3.14 0.784 9.81 150.0 200.0
+
+---
+
+(source_file
+  (num_lit)
+  (num_lit)
+  (num_lit)
+  (num_lit)
+  (num_lit))
+==================
+Exponents
+==================
+
+1e7 2.5e3 1e-3
+
+---
+
+(source_file
+  (num_lit)
+  (num_lit)
+  (num_lit))
+==================
+Radix literals
+==================
+
+#b1010 #o777 #d42 #xFF #xdead
+
+---
+
+(source_file
+  (num_lit)
+  (num_lit)
+  (num_lit)
+  (num_lit)
+  (num_lit))
+==================
+IEEE specials
+==================
+
+inf.0 -inf.0 nan.0 -nan.0
+
+---
+
+(source_file
+  (num_lit)
+  (num_lit)
+  (num_lit)
+  (num_lit))
+==================
+Complex literals
+==================
+
+1+2i 3.0+4.0i 2i -5i +4i -4.5i +inf.0+2.0i
+
+---
+
+(source_file
+  (num_lit)
+  (num_lit)
+  (num_lit)
+  (num_lit)
+  (num_lit)
+  (num_lit)
+  (num_lit))
+==================
+Complex magnitude
+==================
+
+(mag 3.0+4.0i)
+
+---
+
+(source_file
+  (call
+    (identifier)
+    (num_lit)))
+==================
+raylib ints
+==================
+
+8192 73 0.31
+
+---
+
+(source_file
+  (num_lit)
+  (num_lit)
+  (num_lit))

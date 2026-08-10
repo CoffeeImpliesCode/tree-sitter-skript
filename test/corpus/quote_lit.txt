@@ -1,0 +1,91 @@
+==================
+Quoted symbol
+==================
+
+'foo
+
+---
+
+(source_file
+  (quote_lit
+    (identifier)))
+==================
+Quoted list
+==================
+
+'(1 2 3)
+
+---
+
+(source_file
+  (quote_lit
+    (call
+      (num_lit)
+      (num_lit)
+      (num_lit))))
+==================
+Quoted keyword
+==================
+
+':kw
+
+---
+
+(source_file
+  (quote_lit
+    (kwd_lit)))
+==================
+Quoted nil
+==================
+
+'nil
+
+---
+
+(source_file
+  (quote_lit
+    (nil_lit)))
+==================
+Nested quotes
+==================
+
+''a
+
+---
+
+(source_file
+  (quote_lit
+    (quote_lit
+      (identifier))))
+==================
+Quote in defn
+==================
+
+(defn q () '(1 2)) (q)
+
+---
+
+(source_file
+  (defn
+    name: (identifier)
+    params: (list)
+    (quote_lit
+      (call
+        (num_lit)
+        (num_lit))))
+  (call
+    (identifier)))
+==================
+Quoted map key
+==================
+
+(map-get p 'x)
+
+---
+
+(source_file
+  (call
+    (identifier)
+    (identifier)
+    (quote_lit
+      (identifier))))

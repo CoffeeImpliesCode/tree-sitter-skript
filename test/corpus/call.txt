@@ -1,0 +1,128 @@
+==================
+Simple call
+==================
+
+(+ 1 2)
+
+---
+
+(source_file
+  (call
+    (identifier)
+    (num_lit)
+    (num_lit)))
+==================
+Nested calls
+==================
+
+(if (< 3 5) 10 20)
+
+---
+
+(source_file
+  (call
+    (identifier)
+    (call
+      (identifier)
+      (num_lit)
+      (num_lit))
+    (num_lit)
+    (num_lit)))
+==================
+Empty list
+==================
+
+()
+
+---
+
+(source_file
+  (call))
+==================
+Let form
+==================
+
+(let ((x 5) (y 10)) (+ x y))
+
+---
+
+(source_file
+  (call
+    (identifier)
+    (call
+      (call
+        (identifier)
+        (num_lit))
+      (call
+        (identifier)
+        (num_lit)))
+    (call
+      (identifier)
+      (identifier)
+      (identifier))))
+==================
+Case form
+==================
+
+(case 2 ((1 2) "low") (else "high"))
+
+---
+
+(source_file
+  (call
+    (identifier)
+    (num_lit)
+    (call
+      (call
+        (num_lit)
+        (num_lit))
+      (string_lit))
+    (call
+      (identifier)
+      (string_lit))))
+==================
+Begin
+==================
+
+(begin 1 2 3)
+
+---
+
+(source_file
+  (call
+    (identifier)
+    (num_lit)
+    (num_lit)
+    (num_lit)))
+==================
+Particles call
+==================
+
+(DrawCircleV (GetMousePosition) 5.0 white)
+
+---
+
+(source_file
+  (call
+    (identifier)
+    (call
+      (identifier))
+    (num_lit)
+    (identifier)))
+==================
+Map with quoted keys
+==================
+
+(map 'x x 'y y)
+
+---
+
+(source_file
+  (call
+    (identifier)
+    (quote_lit
+      (identifier))
+    (identifier)
+    (quote_lit
+      (identifier))
+    (identifier)))

@@ -1,0 +1,63 @@
+==================
+Booleans
+==================
+
+#t #f
+
+---
+
+(source_file
+  (bool_lit)
+  (bool_lit))
+==================
+Nil
+==================
+
+nil
+
+---
+
+(source_file
+  (nil_lit))
+==================
+Booleans in mainloop
+==================
+
+(if (WindowShouldClose) #t (mainloop nil #t #f))
+
+---
+
+(source_file
+  (call
+    (identifier)
+    (call
+      (identifier))
+    (bool_lit)
+    (call
+      (identifier)
+      (nil_lit)
+      (bool_lit)
+      (bool_lit))))
+==================
+Nil check
+==================
+
+(if (nil? ps) nil (cons (fst ps) (rst ps)))
+
+---
+
+(source_file
+  (call
+    (identifier)
+    (call
+      (identifier)
+      (identifier))
+    (nil_lit)
+    (call
+      (identifier)
+      (call
+        (identifier)
+        (identifier))
+      (call
+        (identifier)
+        (identifier)))))

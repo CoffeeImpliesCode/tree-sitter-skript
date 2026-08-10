@@ -4,11 +4,31 @@
     "named": true,
     "subtypes": [
       {
+        "type": "bool_lit",
+        "named": true
+      },
+      {
         "type": "identifier",
         "named": true
       },
       {
-        "type": "literal",
+        "type": "kwd_lit",
+        "named": true
+      },
+      {
+        "type": "nil_lit",
+        "named": true
+      },
+      {
+        "type": "num_lit",
+        "named": true
+      },
+      {
+        "type": "quote_lit",
+        "named": true
+      },
+      {
+        "type": "string_lit",
         "named": true
       }
     ]
@@ -45,7 +65,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "expression",
@@ -57,36 +77,60 @@
   {
     "type": "def",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        }
-      ]
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
     "type": "defn",
     "named": true,
-    "fields": {},
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "params": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "list",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "expression",
-          "named": true
-        },
-        {
-          "type": "list",
           "named": true
         }
       ]
@@ -95,27 +139,28 @@
   {
     "type": "fn",
     "named": true,
-    "fields": {},
+    "fields": {
+      "params": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "list",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "expression",
           "named": true
-        },
-        {
-          "type": "list",
-          "named": true
         }
       ]
     }
-  },
-  {
-    "type": "line_comment",
-    "named": true,
-    "extra": true,
-    "fields": {}
   },
   {
     "type": "list",
@@ -123,7 +168,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "expression",
@@ -133,7 +178,7 @@
     }
   },
   {
-    "type": "literal",
+    "type": "quote_lit",
     "named": true,
     "fields": {},
     "children": {
@@ -141,15 +186,7 @@
       "required": true,
       "types": [
         {
-          "type": "decimal_literal",
-          "named": true
-        },
-        {
-          "type": "integer_literal",
-          "named": true
-        },
-        {
-          "type": "symbol_literal",
+          "type": "expression",
           "named": true
         }
       ]
@@ -176,6 +213,10 @@
     }
   },
   {
+    "type": "'",
+    "named": false
+  },
+  {
     "type": "(",
     "named": false
   },
@@ -184,11 +225,7 @@
     "named": false
   },
   {
-    "type": ";",
-    "named": false
-  },
-  {
-    "type": "decimal_literal",
+    "type": "bool_lit",
     "named": true
   },
   {
@@ -208,7 +245,20 @@
     "named": true
   },
   {
-    "type": "integer_literal",
+    "type": "kwd_lit",
+    "named": true
+  },
+  {
+    "type": "line_comment",
+    "named": true,
+    "extra": true
+  },
+  {
+    "type": "nil_lit",
+    "named": true
+  },
+  {
+    "type": "num_lit",
     "named": true
   },
   {
@@ -216,7 +266,7 @@
     "named": true
   },
   {
-    "type": "symbol_literal",
+    "type": "string_lit",
     "named": true
   }
 ]

@@ -1,0 +1,85 @@
+==================
+Basic identifiers
+==================
+
+x foo c32 RLColor WindowShouldClose
+
+---
+
+(source_file
+  (identifier)
+  (identifier)
+  (identifier)
+  (identifier)
+  (identifier))
+==================
+Special characters
+==================
+
+even? odd? set-part-x! alive? apply-twice flag-msaa-4x-hint nil? i64? Bool?
+
+---
+
+(source_file
+  (identifier)
+  (identifier)
+  (identifier)
+  (identifier)
+  (identifier)
+  (identifier)
+  (identifier)
+  (identifier)
+  (identifier))
+==================
+Qualified names
+==================
+
+dynamic-library:open ffi:make-func foo.bar
+
+---
+
+(source_file
+  (identifier)
+  (identifier)
+  (identifier))
+==================
+Intrinsics
+==================
+
+@rgba @i64.add @is-instance-of? @Bool
+
+---
+
+(source_file
+  (identifier)
+  (identifier)
+  (identifier)
+  (identifier))
+==================
+Operator symbols
+==================
+
++ - * / < > =
+
+---
+
+(source_file
+  (identifier)
+  (identifier)
+  (identifier)
+  (identifier)
+  (identifier)
+  (identifier)
+  (identifier))
+==================
+Hyphenated names
+==================
+
+key-escape mouse-button-left flag-window-highdpi
+
+---
+
+(source_file
+  (identifier)
+  (identifier)
+  (identifier))

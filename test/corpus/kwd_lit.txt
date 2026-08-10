@@ -1,0 +1,64 @@
+==================
+Keyword atoms
+==================
+
+:kw :a :done :hello
+
+---
+
+(source_file
+  (kwd_lit)
+  (kwd_lit)
+  (kwd_lit)
+  (kwd_lit))
+==================
+Keyword in case
+==================
+
+(case :a ((:a) 1) (else 2))
+
+---
+
+(source_file
+  (call
+    (identifier)
+    (kwd_lit)
+    (call
+      (call
+        (kwd_lit))
+      (num_lit))
+    (call
+      (identifier)
+      (num_lit))))
+==================
+Keyword type check
+==================
+
+(Keyword? :k)
+
+---
+
+(source_file
+  (call
+    (identifier)
+    (kwd_lit)))
+==================
+Keyword as map key
+==================
+
+(map 'x x 'y y 'vx vx)
+
+---
+
+(source_file
+  (call
+    (identifier)
+    (quote_lit
+      (identifier))
+    (identifier)
+    (quote_lit
+      (identifier))
+    (identifier)
+    (quote_lit
+      (identifier))
+    (identifier)))
