@@ -38,6 +38,10 @@
     "named": true,
     "subtypes": [
       {
+        "type": "array_lit",
+        "named": true
+      },
+      {
         "type": "atom",
         "named": true
       },
@@ -56,8 +60,31 @@
       {
         "type": "fn",
         "named": true
+      },
+      {
+        "type": "infix_expr",
+        "named": true
+      },
+      {
+        "type": "map_lit",
+        "named": true
       }
     ]
+  },
+  {
+    "type": "array_lit",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "call",
@@ -163,6 +190,21 @@
     }
   },
   {
+    "type": "infix_expr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "list",
     "named": true,
     "fields": {},
@@ -172,6 +214,42 @@
       "types": [
         {
           "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "map_lit",
+    "named": true,
+    "fields": {
+      "key": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "kwd_lit",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "map_marker",
           "named": true
         }
       ]
@@ -225,6 +303,14 @@
     "named": false
   },
   {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "]",
+    "named": false
+  },
+  {
     "type": "bool_lit",
     "named": true
   },
@@ -254,6 +340,10 @@
     "extra": true
   },
   {
+    "type": "map_marker",
+    "named": true
+  },
+  {
     "type": "nil_lit",
     "named": true
   },
@@ -268,5 +358,13 @@
   {
     "type": "string_lit",
     "named": true
+  },
+  {
+    "type": "{",
+    "named": false
+  },
+  {
+    "type": "}",
+    "named": false
   }
 ]

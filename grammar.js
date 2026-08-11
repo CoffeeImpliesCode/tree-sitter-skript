@@ -45,12 +45,28 @@ export default grammar({
     // prec(1) beats call on the reduce conflict so defn/fn arglists parse as
     // `list`, not as a generic `call` body.
     list: $ => prec(1, seq('(', repeat($.expression), ')')),
+    // [ e ... ] — tensor literal; the reader desugars it to (tensor ...).
+    // The brackets are excluded from the identifier charset below.
+    array_lit: $ => seq('[', repeat($.expression), ']'),
+    // { e op e ... } — SRFI-105 exclusive curly-infix; the braces stay
+    // generic and the reader decides the infix mapping.
+    infix_expr: $ => seq('{', repeat($.expression), '}'),
+    // :{ :k v ... } — map literal with keyword keys; the reader desugars it
+    // to (map :k v ...). The map_marker ':{' is a named token (longest-match
+    // beats kwd_lit's ':' when '{' follows, and never fires inside
+    // infix_expr since ':' comes first), keys are keywords, values are full
+    // expressions (so maps nest).
+    map_marker: _ => token(/:\{/),
+    map_lit: $ => seq($.map_marker, repeat(seq(field('key', $.kwd_lit), field('value', $.expression))), '}'),
 
     expression: $ => choice(
       $.def,
       $.defn,
       $.fn,
       $.call,
+      $.array_lit,
+      $.infix_expr,
+      $.map_lit,
       $.atom,
     ),
 

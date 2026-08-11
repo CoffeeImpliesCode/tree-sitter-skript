@@ -1,0 +1,223 @@
+==================
+Array literal
+==================
+
+[1 2 3]
+
+---
+
+(source_file
+  (array_lit
+    (num_lit)
+    (num_lit)
+    (num_lit)))
+==================
+Array literal empty
+==================
+
+[]
+
+---
+
+(source_file
+  (array_lit))
+==================
+Nested array literals
+==================
+
+[1 [2 [3]] 4]
+
+---
+
+(source_file
+  (array_lit
+    (num_lit)
+    (array_lit
+      (num_lit)
+      (array_lit
+        (num_lit)))
+    (num_lit)))
+==================
+Array literal in call
+==================
+
+(list [1 2])
+
+---
+
+(source_file
+  (call
+    (identifier)
+    (array_lit
+      (num_lit)
+      (num_lit))))
+==================
+Array literal as def value
+==================
+
+(def v [1 2])
+
+---
+
+(source_file
+  (def
+    name: (identifier)
+    value: (array_lit
+      (num_lit)
+      (num_lit))))
+==================
+Array literal with strings and keywords
+==================
+
+["a" :k]
+
+---
+
+(source_file
+  (array_lit
+    (string_lit)
+    (kwd_lit)))
+==================
+Map literal
+==================
+
+:{:a 1 :b 2}
+
+---
+
+(source_file
+  (map_lit
+
+    (map_marker)
+    key: (kwd_lit)
+    value: (num_lit)
+    key: (kwd_lit)
+    value: (num_lit)))
+==================
+Map literal single pair
+==================
+
+:{:x 1}
+
+---
+
+(source_file
+  (map_lit
+
+    (map_marker)
+    key: (kwd_lit)
+    value: (num_lit)))
+==================
+Map literal with expression values
+==================
+
+:{:v [1 2] :s "s" :m :{ :n nil }}
+
+---
+
+(source_file
+  (map_lit
+
+    (map_marker)
+    key: (kwd_lit)
+    value: (array_lit
+      (num_lit)
+      (num_lit))
+    key: (kwd_lit)
+    value: (string_lit)
+    key: (kwd_lit)
+    value: (map_lit
+   (map_marker)
+      key: (kwd_lit)
+      value: (nil_lit))))
+==================
+Map literal as def value
+==================
+
+(def m :{ :a 1 })
+
+---
+
+(source_file
+  (def
+    name: (identifier)
+    value: (map_lit
+   (map_marker)
+      key: (kwd_lit)
+      value: (num_lit))))
+==================
+Curly infix
+==================
+
+{1 + 2}
+
+---
+
+(source_file
+  (infix_expr
+    (num_lit)
+    (identifier)
+    (num_lit)))
+==================
+Curly infix nested in call
+==================
+
+(f {x + 1})
+
+---
+
+(source_file
+  (call
+    (identifier)
+    (infix_expr
+      (identifier)
+      (identifier)
+      (num_lit))))
+==================
+Curly infix with call operand
+==================
+
+{(f a) + 1}
+
+---
+
+(source_file
+  (infix_expr
+    (call
+      (identifier)
+      (identifier))
+    (identifier)
+    (num_lit)))
+==================
+Empty braces
+==================
+
+{}
+
+---
+
+(source_file
+  (infix_expr))
+==================
+Mixed notation in one program
+==================
+
+(def data :{ :xs [1 2 3] :total {1 + 2} })
+
+---
+
+(source_file
+  (def
+    name: (identifier)
+    value: (map_lit
+   (map_marker)
+      key: (kwd_lit)
+      value: (array_lit
+        (num_lit)
+        (num_lit)
+        (num_lit))
+      key: (kwd_lit)
+      value: (infix_expr
+        (num_lit)
+        (identifier)
+        (num_lit)))))

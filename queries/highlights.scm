@@ -65,7 +65,10 @@
 
 ; --- Punctuation ---
 ["(" ")"] @punctuation.bracket
+["[" "]"] @punctuation.bracket
+["{" "}"] @punctuation.bracket
 "'" @punctuation.special
+(map_marker) @punctuation.special
 
 ; --- Errors ---
 (ERROR) @error
