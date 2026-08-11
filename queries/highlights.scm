@@ -41,7 +41,7 @@
 (call
   .
   (identifier) @function.builtin
-  (#match? @function.builtin "^(write|spawn|send|receive|load|display|map|map-get|map-set!|cons|fst|rst|list|car|cdr|abs|min|max|mod|rem|pow|avg|clamp|mag|arg|sqrt|nil\\?|reduce|scan|filter|uniq|where|diff|flatten|transpose|chunks|partition|take|drop|concat|reverse|rotate|outer|dot|zip|zip-with)$"))
+  (#match? @function.builtin "^(write|spawn|send|receive|load|display|map|map-get|map-set!|cons|fst|rst|list|car|cdr|abs|min|max|mod|rem|pow|avg|clamp|mag|arg|sqrt|nil\\?|fold|scan|keep|uniq|where|diff|flat|trans|chunk|part|take|drop|cat|rev|rot|outer|dot|zip|map2)$"))
 
 ; --- @-intrinsics (@rgba, @i64.add, @is-instance-of?) ---
 ((identifier) @function.builtin
