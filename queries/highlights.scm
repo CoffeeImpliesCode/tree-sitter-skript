@@ -61,6 +61,11 @@
 (defn params: (list (identifier) @variable.parameter))
 (fn params: (list (identifier) @variable.parameter))
 
+; Legacy defn - the shape every defn in skript's own tree uses. There is no
+; `name:` field, so the name is the FIRST arglist element and the patterns
+; above capture it as a parameter. Placed after them so it wins for that node.
+((defn !name params: (list . (identifier) @function)))
+
 ; --- Quoted forms ---
 ; ' FORM is data — highlight the whole quoted region as a constant.
 (quote_lit _ @constant)
