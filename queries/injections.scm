@@ -1,3 +1,2 @@
-; Language injections for Skript
-; TODO: once the grammar supports string literals ("..."),
-; add injection points for embedded languages if needed.
+; Language injections for Skript.
+; No captures yet. Skript has no embedded-language syntax.

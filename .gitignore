@@ -1,5 +1,7 @@
 # Rust artifacts
 target/
+# This crate is a library, so Cargo resolves the lockfile per consumer.
+Cargo.lock
 
 # Node artifacts
 build/
@@ -32,6 +34,7 @@ dist/
 .zig-cache/
 zig-cache/
 zig-out/
+zig-pkg/
 
 # Example dirs
 /examples/*/
@@ -51,7 +54,7 @@ zig-out/
 .jj/
 .devenv/
 .direnv/
-devenv.nix
-devenv.lock
-.envrc
 log.html
+
+# tree-sitter test report
+/result

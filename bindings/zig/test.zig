@@ -1,6 +1,6 @@
 const testing = @import("std").testing;
 
-const ts = @import("tree-sitter");
+const ts = @import("tree_sitter");
 const root = @import("tree-sitter-skript");
 const Language = ts.Language;
 const Parser = ts.Parser;

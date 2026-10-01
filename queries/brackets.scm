@@ -1,4 +1,5 @@
-; Bracket matching for Skript
-; Based on the reference implementation which supports (), [], and {}.
-; TODO: add [ ] { } after grammar supports them.
+; Bracket matching for Skript.
+; The reader supports (), [], and {}.
 ("(" @open ")" @close)
+("[" @open "]" @close)
+("{" @open "}" @close)
