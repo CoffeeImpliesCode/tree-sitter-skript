@@ -34,7 +34,7 @@
 (call
   .
   (identifier) @keyword
-  (#match? @keyword "^(def|defn|fn|if|let|case|begin|lambda|quote|set!|instance|method|and|or|not|else)$"))
+  (#match? @keyword "^(def|defn|fn|let|letrec|letrec\\*|if|when|unless|cond|case|do|begin|quote|set!|eval|export|use|raise|try|guard|and|or|not|else)$"))
 
 ; --- Literal keywords of the def/defn/fn rules ---
 ["def" "defn" "fn"] @keyword
@@ -43,7 +43,7 @@
 (call
   .
   (identifier) @function.builtin
-  (#match? @function.builtin "^(write|spawn|send|receive|load|display|map|map-get|map-set!|cons|fst|rst|list|car|cdr|abs|min|max|mod|rem|pow|avg|clamp|mag|arg|sqrt|nil\\?|fold|scan|keep|uniq|where|diff|flat|trans|chunk|part|take|drop|cat|rev|rot|outer|dot|zip|map2)$"))
+  (#match? @function.builtin "^(write|spawn|send|receive|load|display|map|map-get|map-set!|cons|fst|rst|list|abs|min|max|mod|rem|pow|avg|clamp|mag|sqrt|nil\\?|fold|scan|keep|uniq|where|diff|flat|trans|chunk|part|take|drop|cat|rev|rot|outer|dot|zip|map2)$"))
 
 ; --- @-intrinsics (@rgba, @i64.add, @is-instance-of?) ---
 ((identifier) @function.builtin
@@ -51,7 +51,7 @@
 
 ; --- Operators ---
 ((identifier) @operator
- (#match? @operator "^(\\+|-|\\*|/|=|>|<|>=|<=)$"))
+ (#match? @operator "^(\\+|-|\\*|/|=|!=|>|<|>=|<=)$"))
 
 ; --- Bound names ---
 (def name: (identifier) @function)
