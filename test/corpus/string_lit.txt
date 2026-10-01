@@ -71,3 +71,17 @@ String in raylib
     value: (call
       (identifier)
       (string_lit))))
+
+==================
+Escaped newline stays inside the string
+==================
+
+(print "a\
+b")
+
+---
+
+(source_file
+  (call
+    (identifier)
+    (string_lit)))

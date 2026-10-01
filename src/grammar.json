@@ -846,8 +846,17 @@
                       "value": "\\"
                     },
                     {
-                      "type": "PATTERN",
-                      "value": "."
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "PATTERN",
+                          "value": "."
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "\n"
+                        }
+                      ]
                     }
                   ]
                 }

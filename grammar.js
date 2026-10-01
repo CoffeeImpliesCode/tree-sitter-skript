@@ -188,8 +188,11 @@ export default grammar({
       ),
     ))),
 
-    // "..." with opaque escapes - `\` escapes the next byte (Token.zig:374-391).
-    string_lit: _ => token(seq('"', repeat(choice(/[^"\\]/, seq('\\', /./))), '"')),
+    // "..." with opaque escapes. `\` escapes the next BYTE (Token.zig:383-386)
+    // and that byte may be a newline, but tree-sitter's `.` stops at LF - so
+    // `"a\<newline>b"` failed to lex as one string and took the whole form to
+    // ERROR. The escaped class has to admit '\n' explicitly.
+    string_lit: _ => token(seq('"', repeat(choice(/[^"\\]/, seq('\\', choice(/./, '\n')))), '"')),
 
     // :NAME - the body stops at exactly the reader's terminator set
     // (Token.zig:243), so `:`, `@`, `,`, `'` and `.` are all legal inside a
