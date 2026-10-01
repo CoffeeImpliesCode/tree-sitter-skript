@@ -55,8 +55,11 @@ export default grammar({
       '|#',
     ))),
 
-    // `#!` is a shebang only at offset 0 (Token.zig:190-195); anywhere else `#`
-    // starts an identifier.
+    // The reader only recognises `#!` at byte offset 0 (Token.zig:190-195) and
+    // treats it as an identifier anywhere else. The grammar cannot anchor a
+    // token to offset 0, so this matches `#!` at the start of any top-level
+    // line: `\n#!x\n42` reads as (shebang) + 42 where the reader gives two
+    // identifiers. Mid-line (`a #!b c`) stays identifiers. See README.md.
     shebang: _ => token(prec(1, /#![^\n]*/)),
 
     // (def NAME VALUE). The reader treats `def` as an ordinary symbol, so the
