@@ -105,3 +105,49 @@ raylib ints
   (num_lit)
   (num_lit)
   (num_lit))
+==================
+Unsigned special float splits from its imaginary part
+==================
+
+nan.0-1.0i inf.0+2.0i
+
+---
+
+(source_file
+  (num_lit)
+  (num_lit)
+  (num_lit)
+  (num_lit))
+==================
+Signed special float keeps its imaginary part
+==================
+
++inf.0+2.0i -nan.0-1.0i
+
+---
+
+(source_file
+  (num_lit)
+  (num_lit))
+==================
+Radix digits are constrained per base
+==================
+
+#b1010 #b2
+
+---
+
+(source_file
+  (num_lit)
+  (identifier))
+==================
+Uppercase radix prefixes are identifiers
+==================
+
+#X1f #B1010
+
+---
+
+(source_file
+  (identifier)
+  (identifier))

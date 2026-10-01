@@ -8,6 +8,8 @@
 ; --- Comments ---
 (line_comment) @comment.line
 (shebang) @comment
+(block_comment) @comment.block
+(datum_comment) @comment.block
 
 ; --- Atoms ---
 (num_lit) @number
@@ -69,6 +71,7 @@
 ["{" "}"] @punctuation.bracket
 "'" @punctuation.special
 (map_marker) @punctuation.special
+"." @punctuation.delimiter
 
 ; --- Errors ---
 (ERROR) @error

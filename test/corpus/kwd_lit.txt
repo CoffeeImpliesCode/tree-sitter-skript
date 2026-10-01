@@ -62,3 +62,45 @@ Keyword as map key
     (quote_lit
       (identifier))
     (identifier)))
+==================
+Keyword body stops only at reader terminators
+==================
+
+:a:b :kw@x :kw,x :kw.x
+
+---
+
+(source_file
+  (kwd_lit)
+  (kwd_lit)
+  (kwd_lit)
+  (kwd_lit))
+==================
+A keyword body may be colons
+==================
+
+:: :::
+
+---
+
+(source_file
+  (kwd_lit)
+  (kwd_lit))
+==================
+Zero-width keyword is not a keyword
+==================
+
+(map-get :{ :a 1 } : :b)
+
+---
+
+(source_file
+  (call
+    (identifier)
+    (map_lit
+      (map_marker)
+      key: (kwd_lit)
+      value: (num_lit))
+    (ERROR
+      (UNEXPECTED ' '))
+    (kwd_lit)))

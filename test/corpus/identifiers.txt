@@ -83,3 +83,41 @@ key-escape mouse-button-left flag-window-highdpi
   (identifier)
   (identifier)
   (identifier))
+==================
+Comma is an identifier byte
+==================
+
+,foo , a,b
+
+---
+
+(source_file
+  (identifier)
+  (identifier)
+  (identifier))
+==================
+Longer hash identifiers are not booleans
+==================
+
+#true #ture #T #f
+
+---
+
+(source_file
+  (identifier)
+  (identifier)
+  (identifier)
+  (bool_lit))
+==================
+nil-prefixed identifiers
+==================
+
+nil? nilx nil.0 nilly
+
+---
+
+(source_file
+  (identifier)
+  (identifier)
+  (identifier)
+  (identifier))
