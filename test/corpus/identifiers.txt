@@ -121,3 +121,44 @@ nil? nilx nil.0 nilly
   (identifier)
   (identifier)
   (identifier))
+==================
+Quote inside an identifier
+==================
+
+x'y a'b'c program's own
+
+---
+
+(source_file
+  (identifier)
+  (identifier)
+  (identifier)
+  (identifier))
+==================
+A quote still opens a quoted form
+==================
+
+'x (f x'y) (f 'x)
+
+---
+
+(source_file
+  (quote_lit
+    (identifier))
+  (call
+    (identifier)
+    (identifier))
+  (call
+    (identifier)
+    (quote_lit
+      (identifier))))
+==================
+A leading quote is never part of an identifier
+==================
+
+,'x
+
+---
+
+(source_file
+  (identifier))

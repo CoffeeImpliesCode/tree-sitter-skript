@@ -141,9 +141,13 @@ export default grammar({
     // the delimiters the lexer's dispatch switch claims (Token.zig:115-179) -
     // whitespace, ()[]{} ".', digits and `.` - so `,` and `@` and `#` may
     // start an identifier. Continues until whitespace or one of ()[]{};",
-    // which is why `'` and `,` and `:` are legal INSIDE one: `x'y`, `a,b`,
-    // `foo.bar`, `dynamic-library:open` are single tokens.
-    identifier: _ => /[^ \t\r\n()\[\]{};"'.:0-9][^ \t\r\n()\[\]{};"']*/,
+    // which is why `'` and `,` and `:` are legal INSIDE one.
+    // The FIRST character excludes `'` (it opens quote_lit) but the BODY does
+    // not: Token.zig:257 terminates an identifier on whitespace and
+    // ()[]{}" only, never on `'` itself, so `x'y` is one symbol to skript.
+    // Keeping `'` out of the body class makes tree-sitter split it into
+    // `x` + quote + `y`.
+    identifier: _ => /[^ \t\r\n()\[\]{};"'.:0-9][^ \t\r\n()\[\]{};"]*/,
 
     // One token mirroring Token.zig's number dispatch.
     num_lit: _ => token(prec(10, choice(
