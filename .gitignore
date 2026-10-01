@@ -31,10 +31,13 @@ dist/
 *.lib
 
 # Zig artifacts
-.zig-cache/
+# No trailing slash: these are symlinks to a local-disk cache here, because
+# Zig's build runner cannot create its cache on the NFS mount this repo lives
+# on (rename(2) returns EINVAL and readdir reports DT_UNKNOWN).
+.zig-cache
 zig-cache/
 zig-out/
-zig-pkg/
+zig-pkg
 
 # Example dirs
 /examples/*/
