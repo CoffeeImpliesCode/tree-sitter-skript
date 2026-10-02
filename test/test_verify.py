@@ -168,9 +168,16 @@ class WorkDirTests(unittest.TestCase):
         finally:
             os.chdir(cwd)
 
-    def test_accepts_project_scratch(self):
-        chosen = verify.resolve_work_dir("/home/tmp2/omp/tree-sitter-skript-work")
-        self.assertEqual(Path("/home/tmp2/omp/tree-sitter-skript-work"), chosen)
+    def test_defaults_to_the_xdg_cache(self):
+        saved = os.environ.pop("TREE_SITTER_SKRIPT_VERIFY_WORKDIR", None)
+        cache = os.environ.get("XDG_CACHE_HOME") or str(Path.home() / ".cache")
+        try:
+            chosen = verify.resolve_work_dir(None)
+        finally:
+            if saved is not None:
+                os.environ["TREE_SITTER_SKRIPT_VERIFY_WORKDIR"] = saved
+        expected = Path(os.path.realpath(Path(cache) / "tree-sitter-skript" / "verify"))
+        self.assertEqual(expected, chosen)
 
     def test_env_var_is_used_when_no_flag(self):
         previous = os.environ.get("TREE_SITTER_SKRIPT_VERIFY_WORKDIR")

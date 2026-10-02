@@ -137,8 +137,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 TEST_DIR = REPO_ROOT / "test"
 SRC_DIR = REPO_ROOT / "src"
 
-# The shared scratch this project is allowed to use. Never /tmp or /var/tmp.
-SHARED_WORK_DIR = Path("/home/tmp2/omp/tree-sitter-skript-work")
+# Never /tmp or /var/tmp: those roots are shared and volatile.
 FORBIDDEN_WORK_ROOTS = (Path("/tmp"), Path("/var/tmp"))
 
 # Ownership token for the per-run child directory. A run creates exactly one
@@ -302,10 +301,10 @@ def resolve_work_dir(explicit: str | os.PathLike | None) -> Path:
     """Resolve the PARENT directory a run may put its own child inside.
 
     Precedence: --work-dir, then $TREE_SITTER_SKRIPT_VERIFY_WORKDIR, then the
-    XDG cache home, then the project-shared scratch. The result is fully
-    symlink-resolved and refused outright if it lands inside /tmp or /var/tmp.
-    Nothing is created, written or removed here: this is only the place the
-    run's own private child will live.
+    XDG cache home. The result is fully symlink-resolved and refused outright
+    if it lands inside /tmp or /var/tmp. Nothing is created, written or
+    removed here: this is only the place the run's own private child will
+    live.
     """
     if explicit is not None:
         candidate = Path(explicit)
@@ -315,8 +314,6 @@ def resolve_work_dir(explicit: str | os.PathLike | None) -> Path:
         xdg = os.environ.get("XDG_CACHE_HOME")
         base = Path(xdg) if xdg else Path.home() / ".cache"
         candidate = base / "tree-sitter-skript" / "verify"
-        if not base.is_dir() or not os.access(base, os.W_OK):
-            candidate = SHARED_WORK_DIR
     candidate = Path(candidate).expanduser()
     if not candidate.is_absolute():
         candidate = (Path.cwd() / candidate).resolve()
@@ -472,8 +469,6 @@ def _first_existing(candidates, predicate) -> Path | None:
 
 def _header_candidates(repo_root: Path) -> list:
     seen = []
-    seen += sorted(repo_root.glob("zig-pkg/*/lib/include"))
-    seen += sorted(repo_root.glob("zig-pkg/*/include"))
     seen += sorted(repo_root.glob(".zig-cache/p/*/include"))
     seen += [
         Path("/usr/include"),
@@ -497,12 +492,7 @@ def _library_candidates() -> list:
 def discover_runtime(
     include_override: str | None, library_override: str | None
 ) -> Runtime:
-    """Find a usable tree-sitter header + library, preferring explicit overrides.
-
-    There is no pkg-config `tree-sitter.pc` on this machine, so pkg-config is
-    tried but never depended on; the installed versioned runtime and a vendored
-    header are the fallbacks.
-    """
+    """Find a usable tree-sitter header + library, preferring explicit overrides."""
     include_dir = Path(include_override).resolve() if include_override else None
     if (
         include_dir is not None
@@ -546,8 +536,7 @@ def discover_runtime(
     if library is None:
         raise HarnessError(
             "no tree-sitter runtime library found. Pass --runtime-library "
-            "/path/to/libtree-sitter.so.0.26 (this machine ships "
-            "/usr/lib64/libtree-sitter.so.0.26)."
+            "/path/to/libtree-sitter.so"
         )
 
     if include_dir is None:
@@ -558,7 +547,7 @@ def discover_runtime(
         if found is None:
             raise HarnessError(
                 "no tree_sitter/api.h found. Pass --runtime-include "
-                "/path/to/include (this repository vendors one under zig-pkg/*/lib/include)."
+                "/path/to/include"
             )
         include_dir = found
 
@@ -1748,19 +1737,14 @@ def generated_cases(count: int, seed: int) -> list:
 def skript_sources(skript_root: Path) -> list:
     skip = {
         ".zig-cache",
-        ".jj",
         "zig-out",
         "node_modules",
-        ".git",
-        ".devenv",
-        ".direnv",
     }
     found = []
     for path in sorted(skript_root.rglob("*.pt")):
         if any(part in skip for part in path.parts):
             continue
         found.append(path)
-    return found
 
 
 # --------------------------------------------------------------------------
@@ -2213,8 +2197,8 @@ def main(argv=None) -> int:
         default=argparse.SUPPRESS,
         help="parent directory for this run's private child, never written to "
         "directly; defaults to $TREE_SITTER_SKRIPT_VERIFY_WORKDIR, then the "
-        "XDG cache, then /home/tmp2/omp/tree-sitter-skript-work. Contents are "
-        "left untouched. Anything resolving inside /tmp or /var/tmp is rejected.",
+        "XDG cache. Contents are left untouched. Anything resolving inside "
+        "/tmp or /var/tmp is rejected.",
     )
     common.add_argument(
         "--keep",
@@ -2231,7 +2215,7 @@ def main(argv=None) -> int:
     common.add_argument(
         "--runtime-library",
         default=argparse.SUPPRESS,
-        help="path to libtree-sitter (this machine ships /usr/lib64/libtree-sitter.so.0.26)",
+        help="path to libtree-sitter",
     )
     common.add_argument(
         "--skript",

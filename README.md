@@ -237,9 +237,9 @@ something; the unit classes need none of them.
 ### Work directory ownership
 
 `--work-dir` names a **parent**, never a scratch to write into. Without it the
-harness uses `$TREE_SITTER_SKRIPT_VERIFY_WORKDIR`, then the XDG cache, then
-`/home/tmp2/omp/tree-sitter-skript-work`. `test/queries.py` follows the same
-rule with `--workdir` and `$TS_QUERIES_TEST_WORKDIR`.
+harness uses `$TREE_SITTER_SKRIPT_VERIFY_WORKDIR`, then the XDG cache.
+`test/queries.py` follows the same rule with `--workdir` and
+`$TS_QUERIES_TEST_WORKDIR`.
 
 Every run creates exactly one fresh child of that parent, builds everything
 inside it, and removes only that child — on success and on failure. Files
@@ -252,18 +252,9 @@ child and prints its exact path.
 
 ## Development
 
-Use [devenv](https://devenv.sh) for the `tree-sitter` CLI.
-
-```sh
-direnv allow
-```
-
-Regenerate the parser after you edit `grammar.js`. The generated parser is
-ABI 15.
-
-```sh
-tree-sitter generate --abi=15
-```
+Install the [`tree-sitter` CLI](https://tree-sitter.github.io/tree-sitter) and
+regenerate the parser after editing `grammar.js`. The generated parser is ABI
+15.
 
 Run the corpus tests and the tree-sitter-native highlight expectations in
 `test/highlight/skript.pt`.
@@ -314,7 +305,7 @@ for every binding below; 0.25 is the first core line that accepts it. A binding
 pins a specific core, usually a newer one, so the columns separate what is
 declared from what was actually exercised.
 
-| Binding | Declared | Observed in this checkout |
+| Binding | Declared | Observed in CI here |
 | --- | --- | --- |
 | C | core >= 0.25; installed header `tree_sitter/tree-sitter-skript.h` declares `const TSLanguage *tree_sitter_skript(void)` | upstream core 0.25.0, including consumers of staged Make and CMake static/shared installs |
 | Rust | `tree-sitter-language` 0.1 supplies `LANGUAGE: LanguageFn`; consumers need core >= 0.25.0; dev-dependency 0.26.8 | suite on core 0.26.13, separate consumer on exactly 0.25.0 |
@@ -324,8 +315,8 @@ declared from what was actually exercised.
 | Swift | `swift-tools-version:5.9`; SwiftTreeSitter from 0.10.0 to the next minor, the first release vendoring the core 0.25 family | wrapper 0.10.0 on core 0.25.10, built by Swift 6.2.4 |
 | Zig | `minimum_zig_version = 0.16.0`; `zig-tree-sitter` pinned by commit hash — wrapper 0.26.0, which in turn pins tree-sitter core 0.27.0 | Zig 0.16 |
 
-`package.json` declares no `engines` field. Node 24 is what the Node suite ran
-on here, which is a fact about that run, not a minimum-Node claim.
+`package.json` declares no `engines` field. The Node suite ran on Node 24;
+that is a fact about that run, not a minimum-Node claim.
 
 ### What each suite checks
 
@@ -353,8 +344,8 @@ and `EggInfo.find_sources`, `build.zig.zon`'s `paths` beside the sources
 `build.zig` compiles, `Package.swift`'s explicit `sources` and copied `queries`
 resource, and the Go module, which filters nothing.
 
-Local Cargo, npm and Python source archives contained the scanner, parser,
-all three parser headers and all four queries. The Python wheel contained the
+Built source archives — Cargo, npm and Python — contain the scanner, parser,
+all three parser headers and all four queries. The Python wheel contains the
 ABI3 extension and all four queries. No package was published.
 
 ### Installing the C library
