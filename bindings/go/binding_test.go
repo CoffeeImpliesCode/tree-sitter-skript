@@ -104,9 +104,8 @@ func assertText(t *testing.T, node *tree_sitter.Node, source []byte, want string
 }
 
 // A binding that loads is not yet a binding that parses. The legacy
-// `(defn (NAME ARGS) ...)` spelling - still what lib/raylib.pt uses - has no
-// `name` field: the head of the arglist IS the name, and everything after the
-// arglist is the body.
+// `(defn (NAME ARGS) ...)` spelling has no `name` field: the head of the
+// arglist IS the name, and everything after the arglist is the body.
 func TestLegacyDefnExposesItsArglistAndBody(t *testing.T) {
 	const text = "(defn (fib n) n)"
 	source := []byte(text)

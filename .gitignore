@@ -1,30 +1,3 @@
-# Rust artifacts
-target/
-# This crate is a library, so Cargo resolves the lockfile per consumer.
-Cargo.lock
-
-# Node artifacts
-build/
-prebuilds/
-node_modules/
-
-# Swift artifacts
-.build/
-# This package is a library, so SwiftPM resolves dependencies per consumer.
-Package.resolved
-.swiftpm/
-
-# Go artifacts
-_obj/
-
-# Python artifacts
-.venv/
-dist/
-*.egg-info
-*.whl
-__pycache__/
-*.pyc
-
 # C artifacts
 *.a
 *.so
@@ -35,14 +8,39 @@ __pycache__/
 *.exp
 *.lib
 
+# Python artifacts
+.venv/
+dist/
+*.egg-info
+*.whl
+__pycache__/
+*.pyc
+
+# Rust artifacts
+target/
+# This crate is a library, so Cargo resolves the lockfile per consumer.
+Cargo.lock
+
+# Node artifacts
+build/
+prebuilds/
+node_modules/
+package-lock.json
+
+# Swift artifacts
+.build/
+# This package is a library, so SwiftPM resolves dependencies per consumer.
+Package.resolved
+.swiftpm/
+
+# Go artifacts
+_obj/
+
 # Zig artifacts
 .zig-cache
 zig-cache/
 zig-out/
 zig-pkg
-
-# Example dirs
-/examples/*/
 
 # Grammar volatiles
 *.wasm
@@ -58,7 +56,3 @@ zig-pkg
 # Other
 .devenv/
 .direnv/
-log.html
-
-# tree-sitter test report
-/result

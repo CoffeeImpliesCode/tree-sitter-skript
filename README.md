@@ -178,11 +178,12 @@ value's span: it recomputes that from the oracle's token kinds — the shape of
 parser's own claim, and checks that it starts on a `#;` token and ends on a
 token edge.
 
-Prerequisites: the Python standard library, a C compiler, Zig 0.16, a Skript
-checkout with an unmodified `src/Token.zig`, and tree-sitter core 0.25 or newer
-as both headers and library. Pass `--runtime-include` (a directory containing
-`tree_sitter/api.h`) and `--runtime-library` (the `libtree-sitter` file) when
-auto-discovery cannot find them.
+Prerequisites: the Python standard library, a C compiler, Zig 0.16, a sibling
+Skript checkout at `../skript` with an unmodified `src/Token.zig`, and
+tree-sitter core 0.25 or newer as both headers and library. Pass `--runtime-include`
+(a directory containing `tree_sitter/api.h`) and `--runtime-library` (the
+`libtree-sitter` file) when auto-discovery cannot find them, and `--skript PATH`
+when the checkout lives elsewhere.
 
 ```sh
 python3 test/verify.py differential --skript ../skript --work-dir PARENT
@@ -295,28 +296,24 @@ zig build && zig build test           # build.zig.zon declares Zig 0.16.0
 swift test
 ```
 
-Each suite parses through its binding and linked core. The table separates
-declared compatibility from the runtime versions exercised here.
+Each suite parses through its binding and linked core.
 
 ### Runtime compatibility
 
-The generated parser is ABI 15, so tree-sitter core 0.25 or newer is the floor
-for every binding below; 0.25 is the first core line that accepts it. A binding
-pins a specific core, usually a newer one, so the columns separate what is
-declared from what was actually exercised.
+The generated parser is ABI 15, so tree-sitter core 0.25 or newer is required
+everywhere below.
 
-| Binding | Declared | Observed in CI here |
-| --- | --- | --- |
-| C | core >= 0.25; installed header `tree_sitter/tree-sitter-skript.h` declares `const TSLanguage *tree_sitter_skript(void)` | upstream core 0.25.0, including consumers of staged Make and CMake static/shared installs |
-| Rust | `tree-sitter-language` 0.1 supplies `LANGUAGE: LanguageFn`; consumers need core >= 0.25.0; dev-dependency 0.26.8 | suite on core 0.26.13, separate consumer on exactly 0.25.0 |
-| Go | `github.com/tree-sitter/go-tree-sitter` v0.25.0, module `go 1.23` | go-tree-sitter 0.25.0 |
-| Node | optional peer `tree-sitter` `^0.25.0`, matched by the dev-dependency | node-tree-sitter 0.25.0 and 0.25.1 on Node 24 |
-| Python | `requires-python >= 3.10`; optional `[core]` extra on `tree-sitter~=0.25` | py-tree-sitter 0.25.0 |
-| Swift | `swift-tools-version:5.9`; SwiftTreeSitter from 0.10.0 to the next minor, the first release vendoring the core 0.25 family | wrapper 0.10.0 on core 0.25.10, built by Swift 6.2.4 |
-| Zig | `minimum_zig_version = 0.16.0`; `zig-tree-sitter` pinned by commit hash — wrapper 0.26.0, which in turn pins tree-sitter core 0.27.0 | Zig 0.16 |
+| Binding | Supported |
+| --- | --- |
+| C | core >= 0.25; installed header `tree_sitter/tree-sitter-skript.h` declares `const TSLanguage *tree_sitter_skript(void)` |
+| Rust | `tree-sitter-language` 0.1 supplies `LANGUAGE: LanguageFn`; consumers need core >= 0.25.0; dev-dependency 0.26.8 |
+| Go | `github.com/tree-sitter/go-tree-sitter` v0.25.0, module `go 1.23` |
+| Node | optional peer `tree-sitter` `^0.25.0`, matched by the dev-dependency |
+| Python | `requires-python >= 3.10`; optional `[core]` extra on `tree-sitter~=0.25` |
+| Swift | `swift-tools-version:5.9`; SwiftTreeSitter from 0.10.0 to the next minor, the first release vendoring the core 0.25 family |
+| Zig | `minimum_zig_version = 0.16.0`; `zig-tree-sitter` pinned by commit hash — wrapper 0.26.0, which in turn pins tree-sitter core 0.27.0 |
 
-`package.json` declares no `engines` field. The Node suite ran on Node 24;
-that is a fact about that run, not a minimum-Node claim.
+`package.json` declares no `engines` field.
 
 ### What each suite checks
 
@@ -346,7 +343,7 @@ resource, and the Go module, which filters nothing.
 
 Built source archives — Cargo, npm and Python — contain the scanner, parser,
 all three parser headers and all four queries. The Python wheel contains the
-ABI3 extension and all four queries. No package was published.
+ABI3 extension and all four queries.
 
 ### Installing the C library
 

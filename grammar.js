@@ -79,7 +79,7 @@ export default grammar({
     // Modern shape: (defn NAME (ARGS) BODY...)
     // Degraded shape (no arglist, avoids ERROR-recovery tail-eating):
     //   (defn NAME BODY...)
-    // Legacy shape (still used by lib/raylib.pt): (defn (NAME ARGS) BODY...)
+    // Legacy shape: (defn (NAME ARGS) BODY...)
     defn: $ => prec(1, choice(
       seq('(', "defn", field('name', $.identifier), field('params', $.list), repeat($.expression), ')'),
       seq('(', "defn", field('name', $.identifier), repeat($.expression), ')'),

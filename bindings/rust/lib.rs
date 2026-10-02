@@ -123,9 +123,8 @@ mod tests {
     }
 
     /// A binding that loads is not yet a binding that parses. The legacy
-    /// `(defn (NAME ARGS) ...)` spelling - still what lib/raylib.pt uses - has
-    /// no `name` field: the head of the arglist IS the name, and everything
-    /// after the arglist is the body.
+    /// `(defn (NAME ARGS) ...)` spelling has no `name` field: the head of
+    /// the arglist IS the name, and everything after the arglist is the body.
     #[test]
     fn legacy_defn_exposes_its_arglist_and_body() {
         let source = "(defn (fib n) n)";

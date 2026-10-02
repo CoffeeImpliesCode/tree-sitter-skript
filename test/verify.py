@@ -1745,6 +1745,7 @@ def skript_sources(skript_root: Path) -> list:
         if any(part in skip for part in path.parts):
             continue
         found.append(path)
+    return found
 
 
 # --------------------------------------------------------------------------
