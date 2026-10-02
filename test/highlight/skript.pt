@@ -1,0 +1,49 @@
+(defn (legacy-name a b) (write a))
+;^ keyword
+;     ^ punctuation.bracket
+;      ^ function
+;                  ^ variable.parameter
+;                    ^ variable.parameter
+;                        ^ function.builtin
+;                              ^ variable
+
+(defn modern (p q) p)
+;^ keyword
+;     ^ function
+;             ^ variable.parameter
+;               ^ variable.parameter
+;                  ^ variable
+
+(defn standalone 42)
+;^ keyword
+;     ^ function
+;                ^ number
+
+#;(defn (f a) (write @rgba "s" :k #t 42 [1 2] #;(n5 (n4 (n3 @i64.add))) 'q))
+; <- comment.block
+; ^ comment.block
+;  ^ comment.block
+;        ^ comment.block
+;              ^ comment.block
+;                    ^ comment.block
+;                          ^ comment.block
+;                              ^ comment.block
+;                                 ^ comment.block
+;                                    ^ comment.block
+;                                       ^ comment.block
+;                                             ^ comment.block
+;                                                ^ comment.block
+;                                                           ^ comment.block
+;                                                                       ^ comment.block
+;                                                                        ^ comment.block
+;                                                                          ^ comment.block
+
+(write "kept" 1)
+;^ function.builtin
+;      ^ string
+;             ^ number
+
+(write '(a 1) 'b)
+;^ function.builtin
+;      ^ punctuation.special
+;              ^ constant

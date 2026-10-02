@@ -18,6 +18,11 @@
   params: (list) @context
 ) @item
 
+(defn
+  !params
+  name: (identifier) @name
+) @item
+
 ; `!name` excludes the modern shape, which the pattern above already handles;
 ; the leading `.` anchor takes only the FIRST arglist element, so the
 ; parameters after it are not mistaken for the name.

@@ -30,19 +30,21 @@ fn main() {
     println!("cargo:rerun-if-changed={}", parser_path.to_str().unwrap());
 
     let scanner_path = src_dir.join("scanner.c");
-    if scanner_path.exists() {
-        c_config.file(&scanner_path);
-        println!("cargo:rerun-if-changed={}", scanner_path.to_str().unwrap());
-    }
+    c_config.file(&scanner_path);
+    println!("cargo:rerun-if-changed={}", scanner_path.to_str().unwrap());
 
     c_config.compile("tree-sitter-skript");
 
     println!("cargo:rustc-check-cfg=cfg(with_highlights_query)");
-    if !"queries/highlights.scm".is_empty() && std::path::Path::new("queries/highlights.scm").exists() {
+    if !"queries/highlights.scm".is_empty()
+        && std::path::Path::new("queries/highlights.scm").exists()
+    {
         println!("cargo:rustc-cfg=with_highlights_query");
     }
     println!("cargo:rustc-check-cfg=cfg(with_injections_query)");
-    if !"queries/injections.scm".is_empty() && std::path::Path::new("queries/injections.scm").exists() {
+    if !"queries/injections.scm".is_empty()
+        && std::path::Path::new("queries/injections.scm").exists()
+    {
         println!("cargo:rustc-cfg=with_injections_query");
     }
     println!("cargo:rustc-check-cfg=cfg(with_locals_query)");

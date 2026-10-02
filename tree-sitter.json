@@ -11,7 +11,7 @@
         "pt"
       ],
       "highlights": "queries/highlights.scm",
-      "injection-regex": "skript"
+      "injection-regex": "^skript$"
     }
   ],
   "metadata": {
@@ -26,8 +26,7 @@
       }
     ],
     "links": {
-      "repository": "https://github.com/CoffeeImpliesCode/tree-sitter-skript",
-      "funding": ""
+      "repository": "https://github.com/CoffeeImpliesCode/tree-sitter-skript"
     }
   },
   "bindings": {

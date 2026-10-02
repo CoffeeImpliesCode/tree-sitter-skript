@@ -29,7 +29,16 @@ export default grammar({
 
   supertypes: $ => [ $.expression, $.atom ],
 
-  extras: $ => [/\s/, $.line_comment, $.block_comment],
+  extras: $ => [/\s/, $.line_comment, $.block_comment, $.datum_comment],
+
+  // Both comments are decided by the real lexer, not by a token rule, and both
+  // are `extras`. An external token in `extras` is consulted at every token
+  // position, which is the reader's own situation: `lex` skips comments before
+  // dispatching, so a comment may sit between any two tokens - while `#|` and
+  // `#;` inside a string or inside an identifier body stay inside THAT token,
+  // because the scanner is never consulted there. Order fixes the enum the
+  // scanner sees in valid_symbols.
+  externals: $ => [$.block_comment, $.datum_comment],
 
   rules: {
     source_file: $ => seq(
@@ -40,20 +49,10 @@ export default grammar({
     // `;` runs to end of line (Token.zig:189).
     line_comment: _ => token(seq(';', /[^\n]*/)),
 
-    // `#| ... |#` block comment (Token.zig:157-160). Deliberately NOT nested:
-    // the reader counts depth (Token.zig:216-231) and tree-sitter cannot
-    // express that without an external scanner - and an external token listed
-    // in `extras` is only consulted at byte offset 0, so it would parse the
-    // same text as a comment in one position and as three identifiers in
-    // every other. The flat token is wrong only for the nested spelling.
-    //
-    // prec(1) beats the identifier rule on the `#|` opener, so the no-space
-    // spelling `#|a|#` is a comment and not one long identifier.
-    block_comment: _ => token(prec(1, seq(
-      '#|',
-      repeat(choice(/[^#|]/, /#[^|]/, /\|[^#]/)),
-      '|#',
-    ))),
+    // `#| ... |#` and `#; FORM` are the external tokens above; src/scanner.c
+    // owns both. `#| ... |#` nests (Token.zig:216-231) and a datum marker's
+    // span runs to the end of exactly the one discarded form (Reader.zig:355-363),
+    // neither of which a token rule can express.
 
     // The reader only recognises `#!` at byte offset 0 (Token.zig:190-195) and
     // treats it as an identifier anywhere else. The grammar cannot anchor a
@@ -117,11 +116,8 @@ export default grammar({
     map_marker: _ => token(/:\{/),
     map_lit: $ => seq($.map_marker, repeat(seq(field('key', $.kwd_lit), field('value', $.expression))), '}'),
 
-    // #; FORM - datum comment: the reader reads the form and throws it away
-    // (Reader.zig:355-363). Modelled as a real form so the discarded node is
-    // visible instead of being swallowed by the line-comment rule.
-    datum_comment: $ => seq('#;', $.expression),
-
+    // `#; FORM` is an external extra, so a datum comment never occupies a value
+    // slot: `'#;1 2` quotes the live `2`, and `(def a #;1 2)` binds `2`.
     expression: $ => choice(
       $.def,
       $.defn,
@@ -130,7 +126,6 @@ export default grammar({
       $.array_lit,
       $.infix_expr,
       $.map_lit,
-      $.datum_comment,
       $.atom,
     ),
 

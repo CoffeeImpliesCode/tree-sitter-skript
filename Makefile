@@ -1,6 +1,7 @@
 LANGUAGE_NAME := tree-sitter-skript
 HOMEPAGE_URL := https://github.com/coffeeimpliescode/tree-sitter-skript
 VERSION := 0.1.0
+DESCRIPTION := Skript Tree-Sitter Grammar
 
 # repository
 SRC_DIR := src
@@ -17,8 +18,7 @@ PCLIBDIR ?= $(LIBDIR)/pkgconfig
 
 # source/object files
 PARSER := $(SRC_DIR)/parser.c
-EXTRAS := $(filter-out $(PARSER),$(wildcard $(SRC_DIR)/*.c))
-OBJS := $(patsubst %.c,%.o,$(PARSER) $(EXTRAS))
+OBJS := $(patsubst %.c,%.o,$(PARSER) $(SRC_DIR)/scanner.c)
 
 # flags
 ARFLAGS ?= rcs

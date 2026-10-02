@@ -1,12 +1,6 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.9
 
-import Foundation
 import PackageDescription
-
-var sources = ["src/parser.c"]
-if FileManager.default.fileExists(atPath: "src/scanner.c") {
-    sources.append("src/scanner.c")
-}
 
 let package = Package(
     name: "TreeSitterSkript",
@@ -14,14 +8,17 @@ let package = Package(
         .library(name: "TreeSitterSkript", targets: ["TreeSitterSkript"]),
     ],
     dependencies: [
-        .package(name: "SwiftTreeSitter", url: "https://github.com/tree-sitter/swift-tree-sitter", from: "0.9.0"),
+        // 0.10.0 is the first SwiftTreeSitter that vendors tree-sitter core
+        // 0.25, which is the runtime that accepts this grammar's ABI 15
+        // parser; 0.9.0 vendors 0.23 and SetLanguage rejects it outright.
+        .package(url: "https://github.com/tree-sitter/swift-tree-sitter", .upToNextMinor(from: "0.10.0")),
     ],
     targets: [
         .target(
             name: "TreeSitterSkript",
             dependencies: [],
             path: ".",
-            sources: sources,
+            sources: ["src/parser.c", "src/scanner.c"],
             resources: [
                 .copy("queries")
             ],
@@ -31,7 +28,7 @@ let package = Package(
         .testTarget(
             name: "TreeSitterSkriptTests",
             dependencies: [
-                "SwiftTreeSitter",
+                .product(name: "SwiftTreeSitter", package: "swift-tree-sitter"),
                 "TreeSitterSkript",
             ],
             path: "bindings/swift/TreeSitterSkriptTests"

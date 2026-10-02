@@ -20,10 +20,9 @@ readme = "README.md"
 
 [project.urls]
 Homepage = "https://github.com/coffeeimpliescode/tree-sitter-skript"
-Funding = ""
 
 [project.optional-dependencies]
-core = ["tree-sitter~=0.24"]
+core = ["tree-sitter~=0.25"]
 
 [tool.cibuildwheel]
 build = "cp310-*"

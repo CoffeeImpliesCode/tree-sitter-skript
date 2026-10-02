@@ -21,15 +21,9 @@ pub fn build(b: *std.Build) !void {
     });
 
     lib.root_module.addCSourceFiles(.{
-        .files = &.{"src/parser.c"},
+        .files = &.{ "src/parser.c", "src/scanner.c" },
         .flags = &.{"-std=c11"},
     });
-    if (fileExists(b, "src/scanner.c")) {
-        lib.root_module.addCSourceFiles(.{
-            .files = &.{"src/scanner.c"},
-            .flags = &.{"-std=c11"},
-        });
-    }
 
     if (reuse_alloc) {
         lib.root_module.addCMacro("TREE_SITTER_REUSE_ALLOCATOR", "");

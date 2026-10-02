@@ -10,6 +10,9 @@ node_modules/
 
 # Swift artifacts
 .build/
+# This package is a library, so SwiftPM resolves dependencies per consumer.
+Package.resolved
+.swiftpm/
 
 # Go artifacts
 _obj/
@@ -19,6 +22,8 @@ _obj/
 dist/
 *.egg-info
 *.whl
+__pycache__/
+*.pyc
 
 # C artifacts
 *.a
