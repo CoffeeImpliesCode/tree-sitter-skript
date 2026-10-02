@@ -35,12 +35,12 @@ Package.resolved
 
 # Go artifacts
 _obj/
-
 # Zig artifacts
 .zig-cache
 zig-cache/
 zig-out/
 zig-pkg
+.ruff_cache/
 
 # Grammar volatiles
 *.wasm

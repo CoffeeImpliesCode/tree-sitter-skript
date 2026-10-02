@@ -240,7 +240,9 @@ something; the unit classes need none of them.
 `--work-dir` names a **parent**, never a scratch to write into. Without it the
 harness uses `$TREE_SITTER_SKRIPT_VERIFY_WORKDIR`, then the XDG cache.
 `test/queries.py` follows the same rule with `--workdir` and
-`$TS_QUERIES_TEST_WORKDIR`.
+`$TS_QUERIES_TEST_WORKDIR`. `test/test_verify.py` reads
+`$TREE_SITTER_SKRIPT_TEST_WORKDIR` the same way when it resolves its own
+module work directory.
 
 Every run creates exactly one fresh child of that parent, builds everything
 inside it, and removes only that child — on success and on failure. Files
@@ -295,6 +297,12 @@ node --test bindings/node/*_test.js   # or: npm test
 zig build && zig build test           # build.zig.zon declares Zig 0.16.0
 swift test
 ```
+
+Zig fetches its `zig-tree-sitter` dependency into `./zig-pkg` and builds in
+`./zig-out`. Both directories are git-ignored. If the checkout lives on a
+filesystem where Zig cannot create its package cache, point the cache
+directories at local disk, e.g.
+`ZIG_LOCAL_CACHE_DIR=/path/on/local/disk zig build test`.
 
 Each suite parses through its binding and linked core.
 
